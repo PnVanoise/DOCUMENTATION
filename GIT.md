@@ -24,3 +24,4 @@
 - Vérification et ajout des modification en 'staged' ``` $ git add -p ```
 - Commit des modifications de la branche courante sur le remote ``` $ git commit -m 'commentaires verbeux' ```
 - Envoi des modifications sur le remote sur la branche courante en locale ``` $ git push nom_remote nom_branche_locale_travail ```
+- sur GitHub => sur le repository, le push est affiché sous le nom de la branche associée avec une demande de Compare and pull request
