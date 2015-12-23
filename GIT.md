@@ -18,5 +18,5 @@
 ***Enchainement***
 - Récupération de l'état d'une branche sur le repository sur Github ``` $ git fetch nom_remote nom_branche ```
 - Récupération des fichiers depuis le remote depuis la branche sur laquelle on a fait un fetch ``` $ git checkout nom_branche ``` ou ``` $ git pull nom_remote nom_branche ```
-Travail sur branche parallèle à la branche master
+****Travail sur branche parallèle à la branche master****
 - Création d'une nouvelle branche de travail ``` $ git checkout -b nom_nouvelle_branche ```
