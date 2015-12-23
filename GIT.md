@@ -21,3 +21,5 @@
 
 ***Travail sur branche parallèle à la branche master***
 - Création d'une nouvelle branche de travail ``` $ git checkout -b nom_nouvelle_branche ```
+- Vérification et ajout des modification en 'staged' ``` $ git add -p ```
+- Commit des modifications de la branche courante sur le remote ``` $ git commit -m 'commentaires verbeux' ```
