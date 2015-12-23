@@ -12,3 +12,4 @@
 - Pour effacer les fichiers en attente de commit dans git add ``` $ git reset ```
 
 - Suppression de branches merged suite à une pull request ``` $ git branch -d nom_branch_a_suppr ```
+- Affichage de toutes les branches locales ``` $ git branch ```
