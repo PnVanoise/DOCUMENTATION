@@ -27,4 +27,3 @@
 - Envoi des modifications sur le remote sur la branche courante en locale ``` $ git push nom_remote nom_branche_locale_travail ```
 - sur GitHub => sur le repository, le push est affiché sous le nom de la branche associée avec une demande de Compare and pull request
 - Récupération du master mergé sur remote sur master local ``` $ git fetch nom_remote master ``` et ``` $ git pull nom_remote master ```
-- 
