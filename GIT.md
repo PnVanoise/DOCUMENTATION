@@ -14,6 +14,7 @@
 - Suppression de branches merged suite à une pull request ``` $ git branch -d nom_branch_a_suppr ```
 - Suppression de branches non merged ``` $ git branch -D nom_branch_a_suppr ```
 - Affichage de toutes les branches locales ``` $ git branch ```
+- Si différence entre master local et distant ``` $ git reset --hard nom_remote/master ```
 
 ***Enchainement***
 - Récupération de l'état d'une branche sur le repository sur Github ``` $ git fetch nom_remote nom_branche ```
@@ -25,3 +26,5 @@
 - Commit des modifications de la branche courante sur le remote ``` $ git commit -m 'commentaires verbeux' ```
 - Envoi des modifications sur le remote sur la branche courante en locale ``` $ git push nom_remote nom_branche_locale_travail ```
 - sur GitHub => sur le repository, le push est affiché sous le nom de la branche associée avec une demande de Compare and pull request
+- Récupération du master mergé sur remote sur master local ``` $ git fetch nom_remote master ``` et ``` $ git pull nom_remote master ```
+- 
