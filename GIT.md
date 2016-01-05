@@ -16,6 +16,9 @@
 - Affichage de toutes les branches locales ``` $ git branch ```
 - Si différence entre master local et distant ``` $ git reset --hard nom_remote/master ```
 
+- Voir différence entre master en local et modif qui ont été effectuées sur fichiers avant le git add ``` $ git diff ```
+- Voir différence entre master en local et modif qui ont été effectuées sur fichiers après le git add (staged) ``` $ git diff --staged ```
+
 ***Enchainement***
 - Récupération de l'état d'une branche sur le repository sur Github ``` $ git fetch nom_remote nom_branche ```
 - Récupération des fichiers depuis le remote depuis la branche sur laquelle on a fait un fetch ``` $ git checkout nom_branche ``` ou ``` $ git pull nom_remote nom_branche ```
