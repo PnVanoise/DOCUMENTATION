@@ -14,10 +14,13 @@
 - Suppression de branches merged suite à une pull request ``` $ git branch -d nom_branch_a_suppr ```
 - Suppression de branches non merged ``` $ git branch -D nom_branch_a_suppr ```
 - Affichage de toutes les branches locales ``` $ git branch ```
-- Si différence entre master local et distant ``` $ git reset --hard nom_remote/master ```
+- Si différence entre master local et distant ``` $ git reset --hard nom_remote/master ``` ou ``` $ git reset --hard HEAD ```
 
 - Voir différence entre master en local et modif qui ont été effectuées sur fichiers avant le git add ``` $ git diff ```
 - Voir différence entre master en local et modif qui ont été effectuées sur fichiers après le git add (staged) ``` $ git diff --staged ```
+
+- Mettre en attente des modifs sur une branche ``` $ git stash ```
+- Récupérer ces modifications ``` $ git stash pop ```
 
 ***Enchainement***
 - Récupération de l'état d'une branche sur le repository sur Github ``` $ git fetch nom_remote nom_branche ```
