@@ -15,13 +15,16 @@
 // contenant l'image ne se fait pas avant que l'image soit constituée des différents tuiles raster et des objets vectoriels et 
 // que le rognage de l'image soit fait
 
+// Structure qui sera utilisé par PDFMake pour construire le fichier PDF dans la fonction export2pdf()
+// Pour l'exemple, le seul bloc important est image:'' dans content = initialisation d'un objet image vide qui sera rempli
+// par la fonction map2cropimage() une fois l'image constitué
 var pdfFileDefinition = {
     content: [
         {
             image: '',
         },
       {
-        text: 'Fruits and Calories'
+        text: 'Test pour du texte'
       }
     ],
     styles: {
@@ -30,9 +33,7 @@ var pdfFileDefinition = {
         color: '#000',
         fontSize: 11
       },
-      demoTable: {
-        color: '#666',
-        fontSize: 10
+      // Autres propriétés
       }
     }
   };
@@ -46,7 +47,6 @@ var map2cropimage = function () {
         var finalCanvas = document.createElement('canvas');
         finalCanvas.width = 400;
         finalCanvas.height = 300;
-        window.canvas2=canvas2;
         var context = finalCanvas.getContext('2d');
         var imageObj = new Image();
         imageObj.src = itemImage;
@@ -59,7 +59,7 @@ var map2cropimage = function () {
         // imgfin.src = canvas2.toDataURL("image/png");
         // document.getElementById('images').innerHTML = '';
         // document.getElementById('images').appendChild(imgfin);
-        docDefinition.content[0].image = canvas2.toDataURL("image/png");
+        pdfFileDefinition.content[0].image = finalCanvas.toDataURL("image/png");
         deferred.resolve();
     });
     return deferred.promise;
