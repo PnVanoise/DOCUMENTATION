@@ -1,3 +1,7 @@
+<script src="chemin/leaflet-image/leaflet-image.js"></script>
+<script type="text/javascript" src="chemin/pdfmake/pdfmake.js"></script>
+<script type="text/javascript" src="chemin/pdfmake/vfs_fonts.js"></script>
+
 var exportimg = function () {
     var deferred = $q.defer();
     var map = mapService.getMap();
