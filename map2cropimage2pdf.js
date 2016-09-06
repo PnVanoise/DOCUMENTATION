@@ -1,5 +1,5 @@
 // Objectif : exporter une partie de la carte (fonds carto et objets vectoriels) dans un fichier pdf
-// Le code ci-dessous vient d'un environnement AngularJS 1.4 et Leaflet 0.7.7 et un fond carto Geoportail
+// Le code ci-dessous vient d'un environnement AngularJS 1.4 et Leaflet 0.7.7 et avec un fond carto Geoportail
 // Les blocs suivants sont à mettre dans les bons fichiers html et js
 
 // ******************** <Partie HTML> ********************
@@ -7,7 +7,7 @@
 // valable pour Leaflet < v1 (sinon voir doc Leaflet-image)
 <script>L_PREFER_CANVAS = true;</script>
 
-// Récupérer et appeler le plugin Leaflet-image et la librairie PDFMake dans votre fichier html
+// Récupérer et appeler le plugin Leaflet-image et la librairie PDFMake dans le html
 <script src="chemin/leaflet-image/leaflet-image.js"></script> // https://github.com/mapbox/leaflet-image
 <script type="text/javascript" src="chemin/pdfmake/pdfmake.js"></script> // http://pdfmake.org/#/
 <script type="text/javascript" src="chemin/pdfmake/vfs_fonts.js"></script>
@@ -21,7 +21,7 @@
 
 // Structure qui sera utilisé par PDFMake pour construire le fichier PDF dans la fonction export2pdf()
 // Pour l'exemple, le seul bloc important est image:'' dans content = initialisation d'un objet image vide qui sera rempli
-// par la fonction map2cropimage() une fois l'image constitué
+// par la fonction map2cropimage() une fois l'image constituée
 var pdfFileDefinition = {
     content: [
         {
@@ -41,7 +41,7 @@ var pdfFileDefinition = {
     }
 }
 
-// Fonction qui crée une image depuis les tuiles raster et des objets vectoriels de la map courante rognage de l'image
+// Fonction qui crée une image depuis les tuiles raster et des objets vectoriels de la map courante, et qui rogne l'image
 var map2cropimage = function () {
     var deferred = $q.defer(); // gestion promise pour assurer constitution complète image
     var map = mapService.getMap(); // Récupération objet map (ici map se trouve dans un service AngularJs mapService)
@@ -99,7 +99,7 @@ $scope.export2pdf = function () {
 // Chaque géométrie est gérée par Leaflet dans un layer depuis la fonction L.GeoJSON.geometryToLayer() qui constitue un layerGroup (ensemble objets d'une couche métier).
 // Grâce à L_PREFER_CANVAS = true, Leaflet-image gère parfaitement les linestring, les polygons et les markers avec les attributs graphiques associés.
 // Par contre les objets ponctuels personnalisés posent des problèmes = je n'ai pas réussi à gérer les L.awesome-markers.
-// Je les ai remplacés par des L.icon en spécifiant obligatoirement les attributs IconSize et iconAnchor (sinon erreurs dans console navigateur 'Cannot read property 0 of undefined')
+// Je les ai remplacés par des L.Marker basés sur des L.icon en spécifiant obligatoirement les attributs IconSize et iconAnchor (sinon erreurs dans console navigateur 'Cannot read property 0 of undefined')
 var myIcon = L.icon({
     iconUrl: 'chemin_icon/nom_icon.png',
     iconSize: [14, 14],
@@ -108,7 +108,7 @@ var myIcon = L.icon({
 
 //  ******************** CONCLUSION ********************
 // Le code est perfectible surtout pour la partie promise et dans l'utilisation des canvas pour la constitution de l'image
-// Ci-dessous un exemple sans appel serveur = récupérer un icone 14x14 et les librairies dans <head>
+// Ci-dessous un exemple sans appel serveur = copier du code dans un fichier, récupérer un icone 14x14 et les librairies dans <head>
 
 <!DOCTYPE html>
 <html>
