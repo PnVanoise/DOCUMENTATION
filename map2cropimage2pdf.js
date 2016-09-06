@@ -15,21 +15,41 @@
 // contenant l'image ne se fait pas avant que l'image soit constituée des différents tuiles raster et des objets vectoriels et 
 // que le rognage de l'image soit fait
 
+var pdfFileDefinition = {
+    content: [
+        {
+            image: '',
+        },
+      {
+        text: 'Fruits and Calories'
+      }
+    ],
+    styles: {
+      header: {
+        bold: true,
+        color: '#000',
+        fontSize: 11
+      },
+      demoTable: {
+        color: '#666',
+        fontSize: 10
+      }
+    }
+  };
+
 var map2cropimage = function () {
-    var deferred = $q.defer();
-    var map = mapService.getMap();
+    var deferred = $q.defer(); // gestion promise pour assurer constitution complète image
+    var map = mapService.getMap(); // Récupération objet map (ici map se trouve dans un service AngularJs mapService)
     var sizemap = map.getSize();
-    console.log('size map : '+sizemap);
-    window.map = map;
     leafletImage(map, function(err, canvas) {
-        var don = canvas.toDataURL('image/jpeg');
-        var canvas2 = document.createElement('canvas');
-        canvas2.width = 400;
-        canvas2.height = 300;
+        var itemImage = canvas.toDataURL('image/jpeg');
+        var finalCanvas = document.createElement('canvas');
+        finalCanvas.width = 400;
+        finalCanvas.height = 300;
         window.canvas2=canvas2;
-        var context = canvas2.getContext('2d');
+        var context = finalCanvas.getContext('2d');
         var imageObj = new Image();
-        imageObj.src = don;
+        imageObj.src = itemImage;
         var sourceWidth = 400;
         var sourceHeight = 300;
         var sourceX = sizemap.x / 2 - sourceWidth / 2;
@@ -50,6 +70,6 @@ $scope.export2pdf = function () {
     // var promise = createcanvas.call()
     var promise = exportimg.call();
     promise.then(function() {
-        pdfMake.createPdf(docDefinition).open();
+        pdfMake.createPdf(pdfFileDefinition).open();
     });
 }
