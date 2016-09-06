@@ -1,5 +1,6 @@
 // Objectif : exporter une partie de la carte (fonds carto et objets vectoriels) dans un fichier pdf
 // Le code ci-dessous vient d'un environnement AngularJS 1.4 et Leaflet 0.7.7 et avec un fond carto Geoportail
+// Tout sexécute du coté client
 // Les blocs suivants sont à mettre dans les bons fichiers html et js
 
 // ******************** <Partie HTML> ********************
