@@ -1,5 +1,5 @@
 // Objectif : exporter une partie de la carte (fonds carto et objets vectoriels) dans un fichier pdf
-// Le code ci-dessous vient d'un environnement AngularJS 1.4 et Leaflet
+// Le code ci-dessous vient d'un environnement AngularJS 1.4 et Leaflet 0.7.7 et un fond carto Geoportail
 // Les blocs suivants sont à mettre dans les bons fichiers html et js
 
 // ******************** <Partie HTML> ********************
@@ -88,7 +88,7 @@ var map2cropimage = function () {
 // Fonction qui crée le PDF depuis l'objet qui définit sa structure et qui ouvre le PDF dans la navigateur
 $scope.export2pdf = function () {
     var deferred = $q.defer();
-    var promise = exportimg.call(); // appel fonction exportimg en promise
+    var promise = map2cropimage.call(); // appel fonction exportimg en promise
     promise.then(function() {
         pdfMake.createPdf(pdfFileDefinition).open(); // exécution de pdfMake.createPdf quand l'image est constituée
     });
@@ -106,3 +106,137 @@ var myIcon = L.icon({
     iconAnchor: [7, 7],
 });
 
+//  ******************** CONCLUSION ********************
+// Le code est perfectible surtout pour la partie promise et dans l'utilisation des canvas pour la constitution de l'image
+// Ci-dessous un exemple sans appel serveur = récupérer un icone 14x14 et les librairies dans <head>
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Export PDF example</title>
+    
+    <script>L_PREFER_CANVAS = true;</script>
+    <script src="../js/lib/leaflet/leaflet-src.js"></script>
+    <link rel="stylesheet" href="../js/lib/leaflet/leaflet.css">
+    
+    
+    <script src="leaflet-image/leaflet-image.js"></script>
+    <script type="text/javascript" src="../js/lib/pdfmake/pdfmake.js"></script>
+    <script type="text/javascript" src="../js/lib/pdfmake/vfs_fonts.js"></script>
+    
+  </head>
+  <body>
+    <div id="map" style="width: 400px; height: 300px"></div>
+    <br>
+    <input type="button" value="Génération image et PDF" onClick="export2img2pdf()"/>
+    <div id="images"></div>
+    
+    <script>
+      var map = L.map('map').setView([45.5,6], 10);
+      url = 'https://gpp3-wxs.ign.fr/CLE_GEOPORTAIL/geoportail/wmts?LAYER=GEOGRAPHICALGRIDSYSTEMS.MAPS&EXCEPTIONS=text/xml&FORMAT=image/jpeg&SERVICE=WMTS&VERSION=1.0.0&REQUEST=GetTile&STYLE=normal&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}';
+
+      // L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+      L.tileLayer(url, {
+      }).addTo(map);
+
+      // Ajout circle
+      var circle = L.circle([45.5,6], 2000, {
+          color: 'blue',
+          fillColor: '#f03',
+          fillOpacity: 0.5
+      // }).addTo(map);
+      });
+
+      // Ajout marker
+      L.marker([45.5,6.1]).addTo(map);
+      
+      // Ajout geojson
+      var geojsonFeature = {
+          "type": "Feature",
+          "properties": {
+              "id": "10",
+              "name": "Son nom",
+              "comments": "Bla bla bla"
+          },
+          "geometry": {
+              // "type": "Point",
+              // "coordinates": [6,45.5]
+              // "type": "LineString",
+              // "coordinates": [[6,45.5],[6.1,45.5],[6,45.4]]
+              "type": "Polygon",
+              "coordinates": [[[6,45.5],[6.1,45.5],[6.1,45.4],[6,45.4],[6,45.5]]]
+              
+          }
+      };
+
+      // Ajout d'un marker perso
+      var myIcon = L.icon({
+          iconUrl: 'icon.png', // !! créé un icone de 14x14 !!
+          iconSize: [14, 14],
+          iconAnchor: [7, 7],
+      });
+      L.marker([45.5,6], {icon: myIcon}).addTo(map);
+
+      // Feature group
+      var json = L.GeoJSON.geometryToLayer(geojsonFeature);
+      L.featureGroup([json]).addTo(map);
+
+      // var export2img2pdf = function () {
+      //   leafletImage(map, function(err, canvas) {
+      //       var img = document.createElement('img');
+      //       var dimensions = map.getSize();
+      //       img.width = dimensions.x;
+      //       img.height = dimensions.y;
+      //       img.src = canvas.toDataURL();
+      //       document.getElementById('images').innerHTML = '';
+      //       document.getElementById('images').appendChild(img);
+      //       docDefinition.content[0].image = canvas.toDataURL("image/png");
+      //       pdfMake.createPdf(docDefinition).open();
+      //   });
+      // }
+
+      var export2img2pdf = function () {
+        console.log('dans export2img2pdf');
+        var sizemap = map.getSize();
+        leafletImage(map, function(err, canvas) {
+            var itemImage = canvas.toDataURL('image/jpeg');
+            var finalCanvas = document.createElement('canvas');
+            finalCanvas.width = 200;
+            finalCanvas.height = 150;
+            var context = finalCanvas.getContext('2d');
+            var imageObj = new Image();
+            imageObj.src = itemImage;
+            var sourceWidth = 200;
+            var sourceHeight = 150;
+            var sourceX = sizemap.x / 2 - sourceWidth / 2;
+            var sourceY = sizemap.y / 2 - sourceHeight / 2;
+            context.drawImage(imageObj, sourceX, sourceY, sourceWidth, sourceHeight, 0, 0, sourceWidth, sourceHeight);
+            var imgfin = new Image();
+            imgfin.src = finalCanvas.toDataURL("image/png");
+            document.getElementById('images').innerHTML = '';
+            document.getElementById('images').appendChild(imgfin);
+            pdfFileDefinition.content[0].image = finalCanvas.toDataURL("image/png");
+            pdfMake.createPdf(pdfFileDefinition).open();
+        });
+      }
+
+      var pdfFileDefinition = {
+      content: [
+        {
+            image: '',
+        },
+        {
+        text: 'Bla bla bla bla bla'
+        }
+      ],
+      styles: {
+        header: {
+          bold: true,
+          color: '#000',
+          fontSize: 11
+        }
+      }
+    };
+    </script>
+  </body>
+</html>
