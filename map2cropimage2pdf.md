@@ -9,3 +9,5 @@
 ```<script type="text/javascript" src="chemin/pdfmake/vfs_fonts.js"></script>```
 
     var context = canvas2.getContext('2d');
+    var test;
+        function jlkjk;
