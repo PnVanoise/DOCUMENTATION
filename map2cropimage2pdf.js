@@ -85,11 +85,24 @@ var map2cropimage = function () {
     return deferred.promise;
 }
 
+// Fonction qui crée le PDF depuis l'objet qui définit sa structure et qui ouvre le PDF dans la navigateur
 $scope.export2pdf = function () {
     var deferred = $q.defer();
-    // var promise = createcanvas.call()
-    var promise = exportimg.call();
+    var promise = exportimg.call(); // appel fonction exportimg en promise
     promise.then(function() {
-        pdfMake.createPdf(pdfFileDefinition).open();
+        pdfMake.createPdf(pdfFileDefinition).open(); // exécution de pdfMake.createPdf quand l'image est constituée
     });
 }
+
+// ******************** <Concernant la gestion des objets vectorielles par Leaflet-image> ********************
+// Dans cet exemple, les données (géométrie et attributs) viennent du coté serveur sous la forme d'un geojson.
+// Chaque géométrie est gérée par Leaflet dans un layer depuis la fonction L.GeoJSON.geometryToLayer() qui constitue un layerGroup (ensemble objets d'une couche métier).
+// Grâce à L_PREFER_CANVAS = true, Leaflet-image gère parfaitement les linestring, les polygons et les markers avec les attributs graphiques associés.
+// Par contre les objets ponctuels personnalisés posent des problèmes = je n'ai pas réussi à gérer les L.awesome-markers.
+// Je les ai remplacés par des L.icon en spécifiant obligatoirement les attributs IconSize et iconAnchor (sinon erreurs dans console navigateur 'Cannot read property 0 of undefined')
+var myIcon = L.icon({
+    iconUrl: 'chemin_icon/nom_icon.png',
+    iconSize: [14, 14],
+    iconAnchor: [7, 7],
+});
+
